@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Welcome to Employee Evaluation System </title>
+        <style>
+
+        input{
+            width:50%;
+            padding:8px;
+            margin:5px;
+        }
+        .chatbox {
+            height:70%
+            
+        }
+        </style>
+    </head>
+    <body>
+        <br> <br>
+        <h3> Enter the answers for below question and click on Analyse </h3>
+        <br> <br>
+        <div class="chatbox" >
+
+            <input type="number" id="leadership" placeholder="Give rating leadership (0/10)" > <br>
+
+            <input type="number" id="productivity" placeholder="Give rating productivity (0/10)" ><br>
+            <input type="number" id="innovation" placeholder="Give rating innovation (0/10)" ><br>
+            <input type="number" id="technicalskill" placeholder="Give rating technicalskill (0/10)" ><br>
+            <input type="number" id="communication" placeholder="Give rating communication (0/10)" ><br>
+            <input type="number" id="timemanagement" placeholder="Give rating  timemanagement (0/10)" ><br>
+            <br>
+            <input type="text" id="punctuality" placeholder="Give timemanagement (Excellent/Good/Okay)" ><br>
+            <input type="text" id="Discipline" placeholder="Give Discipline (Excellent/Good/Okay)" ><br>
+            <input type="text" id="Adaptability" placeholder="Give Adaptability (Excellent/Good/Okay)" ><br>
+            <input type="text" id="CustomerService" placeholder="Give CustomerService (Excellent/Good/Okay)" ><br>
+            <input type="text" id="Satisfaction" placeholder="Give Satisfaction (Excellent/Good/Okay)" ><br>
+
+            <button onclick="analyze()">Analyze</button>
+            <br> <br>
+            <div id="result"></div>
+
+        </div>
+            
+        <script>
+
+            function convertToRating(value) {
+                var val = value.toLowerCase();
+
+                if(val == "excellent") return 5;
+                if(val == "good") return 4;
+                if(val == "okay") return 3;
+                return 2;
+            }   
+
+            function analyze(){ 
+                var total = 0;
+
+                var leadership = Number(document.getElementById('leadership').value);
+                var productivity = Number(document.getElementById('productivity').value);
+                var innovation = Number(document.getElementById('innovation').value);
+                var communication = Number(document.getElementById('communication').value);
+                var timemanagement = Number(document.getElementById('timemanagement').value);
+
+                var punctuality = convertToRating(document.getElementById('punctuality').value);
+                var Discipline = convertToRating(document.getElementById('Discipline').value);
+                var Adaptability = convertToRating(document.getElementById('Adaptability').value);
+                var CustomerService = convertToRating(document.getElementById('CustomerService').value);
+                var Satisfaction = convertToRating(document.getElementById('Satisfaction').value);
+
+
+                var total = leadership + productivity+ innovation+communication+timemanagement+punctuality+Discipline
+                +Adaptability+CustomerService+Satisfaction;
+
+                var performance = "";
+                var risk = "";
+                var recommendation ="";
+
+                if(total >= 80) {
+                    performance = "Perfect";
+                    risk = "Low";
+                    recommendation = "Award him";
+                } else if (total >= 60 && total < 80) {
+                    performance = "Good";
+                    risk = "Medium ";
+                    recommendation = "Appreciate him";
+                }else if (total >= 40 && total < 60) {
+                    performance = "Okay";
+                    risk = "High ";
+                    recommendation = "Tell him to work more";
+                }else if (total >= 20 && total < 40) {
+                    performance = "Kharab";
+                    risk = "Khup Jast ";
+                    recommendation = "Shikva tyala";
+                }
+
+
+
+                document.getElementById('result').innerHTML = "Total is : <br>" + total + " / 110 " +
+                "<br>" + "Performance of him is : " + performance + "<br>" + 
+                "Risk : " + risk + "<br>" + 
+                "Recommendation : " + recommendation + "<br>";
+
+            }
+        </script>
+
+    </body>
+
+</html>

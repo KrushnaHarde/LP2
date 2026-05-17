@@ -4,6 +4,37 @@ using namespace std;
 unordered_map<int, vector<int>> graph;
 unordered_map<int, bool> visited;
 
+
+unordered_map<int, vector<int>> graphs;
+unordered_map<int, bool> vis;
+
+void DFS(int node){
+    vis[node] = true;
+    cout<<node<<" ";
+    for(int n : graphs[node]){
+        if(!vis[n]) DFS(n);
+    }
+}
+
+queue<int> q;
+// q.push(src);
+
+void BFS(){
+    if(q.empty())   return;
+
+    int cur = q.front(); q.pop();
+
+    cout<<cur<<" ";
+
+    for(int n : graphs[cur]){
+        if(!vis[n]){
+            vis[n] = true;
+            q.push(n);
+        }
+    }
+    BFS();
+}
+
 // DFS
 void dfs(int node){
 

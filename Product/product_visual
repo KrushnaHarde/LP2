@@ -1,0 +1,71 @@
+<apex:page controller="ProductController">
+    <apex:form >
+
+        <apex:pageBlock title="Product Record Management">
+            <apex:pageBlockSection columns="1">
+
+                <apex:inputField value="{!pro.Name}" />
+                <apex:inputField value="{!pro.Serial_No__c}" />
+                <apex:inputField value="{!pro.Manufacture_Date__c}" />
+                <apex:inputField value="{!pro.Expiry_Date__c}" />
+
+            </apex:pageBlockSection>
+
+            <apex:commandButton value="Add Product" action="{!addProduct}" rerender="productTable" />
+        </apex:pageBlock>
+
+        <apex:pageBlock title="Product Table" id="productTable">
+            <apex:pageBlockTable value="{!productList}" var="p">
+
+                <apex:column value="{!p.Name}" />
+                <apex:column value="{!p.Serial_No__c}" />
+                <apex:column value="{!p.Manufacture_Date__c}" />
+                <apex:column value="{!p.Expiry_Date__c}" />
+
+                <apex:column >
+
+                    <apex:commandLink value="Delete" action="{!deleteProduct}">
+
+                        <apex:param name="id" value="{!p.Id}" />
+
+                    </apex:commandLink>
+
+                </apex:column>   
+
+            </apex:pageBlockTable>    
+        </apex:pageBlock>
+
+    </apex:form>
+</apex:page>
+
+
+
+public class ProductController {
+
+    public Product__c pro  {get; set;}
+    public List<Product__c> productList {get; set;}
+
+    public ProductController() {
+        pro = new Product__c();
+        loadProducts();
+    }
+
+    public void addProduct() {
+        insert pro;
+        pro = new Product__c();
+        loadProducts();
+    }
+
+    public void loadProducts() {
+        productList = [select Id, Name, Serial_No__c, Manufacture_Date__c, Expiry_Date__c FROM Product__c LIMIT 1];
+    }
+
+    public void deleteProduct() {
+        String productId = ApexPages.currentPage().getParameters().get('id');
+
+        Product__c p = [Select Id FROM Product__c WHERE Id = :productId LIMIT 1];
+
+        delete p;
+        loadProducts();
+    }
+}

@@ -1,0 +1,18 @@
+Go to
+
+Setup → Object Manager → College Faculty → Validation Rules
+Create the following rules:
+
+Rule Name	Formula	Error Message
+Validate_Faculty_Name	LEN(Faculty_Name__c) < 3	Faculty name must contain at least 3 characters
+Validate_Salary	OR(Salary__c <= 10000, Salary__c >= 500000)	Salary must be greater than 10,000 and less than 500,000
+Validate_Department	ISBLANK(TEXT(Department__c))	Department must be selected
+Validate_Joining_Date	Joining_Date__c > TODAY()	Joining date cannot be a future date
+Validate_Faculty_ID	Faculty_ID__c <= 0	Faculty ID must be greater than 0
+
+
+Rule Name	Formula	Error Message
+Validate_Marks	OR(Marks__c < 0, Marks__c > 100)	Marks should be between 0 and 100
+Validate_Roll_Number	Roll_Number__c <= 0	Roll number must be greater than 0
+Validate_Email	NOT(CONTAINS(Email__c, "@"))	Email must contain @ symbol
+Validate_Student_Name	ISBLANK(Student_Name__c)	Student name cannot be blank

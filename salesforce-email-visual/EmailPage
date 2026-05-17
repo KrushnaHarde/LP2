@@ -1,0 +1,12 @@
+<apex:page controller="EmailController">
+    <apex:form enctype="multipart/form-data">
+        <h2>Send Email</h2>
+        Email : <apex:inputText value="{!toAddress}" /> <br/> <br/>
+        Subject: <apex:inputText value="{!subject}" /> <br/> <br/>
+        Body: <apex:inputTextarea value="{!body}" rows="4"/> <br/><br/>
+        Attachment: <apex:inputFile value="{!fileBody}" fileName="{!fileName}" /> <br/><br/>
+        <apex:commandButton value="Send Email" action="{!SendEmail}" /> <br/> <br/>
+
+        <apex:outputText value="{!msg}" style="color:aqua; font-weight:bold;" />
+    </apex:form>
+</apex:page>

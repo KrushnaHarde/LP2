@@ -1,0 +1,34 @@
+Mystudent__c
+Name
+Roll_No__c
+Class__c
+Mobile_No__c
+
+public class MystudentController{
+    public Mystudent__c stu { get; set; }
+    public List<Mystudent__c> studentList {get; set;}
+
+    public MystudentController(){
+        stu = new Mystudent__c();
+    }
+
+    public void addStudent(){
+        insert stu;
+        stu = new Mystudent__c();
+        loadStudent
+    }
+
+    public void loadStudent(){
+        studentList = [SELECT Id, Name, ROll_No_c, Class__c, Mobile_No__c FROM Mystudent__c];
+    }
+
+    public void deleteStudent(){
+        String studentId = ApexPages.currentPage().getParameters().get('id');
+        Mystudent__c s = [SELECT Id FROM Mystudent__c WHERE Id = :studentId LIMIT 1];
+
+        delete s;
+        loadStudent();
+    }
+
+    
+}

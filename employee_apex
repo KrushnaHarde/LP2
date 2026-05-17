@@ -1,0 +1,38 @@
+public class EmployeeController(){
+    // public static Employee__c
+    public static void addEmployee(Integer empId, String name,String email, Date birthday, String dep){
+        Employee__c emp = new Employee__c();
+        emp.Emp_Id__c = empId;
+        emp.Name = name;
+        emp.Email__c  = email;
+        emp.Birth_Date__c = birthday;
+        emp.Departement__c = dep;
+
+        insert emp;
+
+        System.debug('Employee cha ghusla ');
+    }
+
+    public static void display(){
+        List<Employee__c> lst = [SELECT Id, Emp_Id__c,Name, Email__c, Birth_Date__c, Departement__c FROM Employee__c];
+
+        for(Employee__c e : lst){
+            System.debug('Id : ' + e.Emp_Id__c + ' Name : ' + e.Name + ' Email : ' + e.Email__c);
+        }
+    }
+
+    public static void update(Integer empId, String dept){
+        Employee__c e = [SELECT Id, Emp_Id__c, Departement__c FROM Employee__c WHERE Emp_Id__c =:empId];
+        e.Departement__c = dept;
+
+        System.debug('updated Employee');
+    }
+
+    public static void delete(Integer empId){
+        Employee__c e = [Select Id FROM Employee__c WHERE Emp_Id__c =:empId];
+
+        delete e;
+
+        System.debug('Employee udala ');
+    }
+}

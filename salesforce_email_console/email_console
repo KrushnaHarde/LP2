@@ -1,0 +1,51 @@
+Email Sender
+
+go to developer console 
+apex classes create new 
+
+public class EmailSender {
+
+    public static void sendSimpleEmail() {
+
+        // Create email object
+        Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+
+        // Set recipient email
+        mail.setToAddresses(new String[] {'varshaharde88@gmail.com'});
+
+        // Set subject
+        mail.setSubject('Test Email from Apex');
+
+        // Set body
+        mail.setPlainTextBody('Hello, this is a test email sent using Apex!');
+
+        // Send email
+        Messaging.sendEmail(new Messaging.SingleEmailMessage[] { mail });
+
+        System.debug('Email sent successfully!');
+    }
+    
+    public static void sendEmailWithAttachment() {
+
+        Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+
+        mail.setToAddresses(new String[] {'varshaharde88@gmail.com'});
+        mail.setSubject('Email with Attachment');
+        mail.setPlainTextBody('Hello, please find the attachment.');
+
+        // Create attachment
+        Messaging.EmailFileAttachment attachment = new Messaging.EmailFileAttachment();
+
+        attachment.setFileName('sample.txt');
+        attachment.setBody(Blob.valueOf('This is sample file content.'));
+        attachment.setContentType('text/plain');
+
+        // Attach file
+        mail.setFileAttachments(new Messaging.EmailFileAttachment[] { attachment });
+
+        // Send email
+        Messaging.sendEmail(new Messaging.SingleEmailMessage[] { mail });
+
+        System.debug('Email with attachment sent!');
+    }
+}

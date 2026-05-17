@@ -1,0 +1,100 @@
+public class EmployeeManager {
+
+    public static void addEmployee(Integer empId, String name, String email, Date birthDate, String dept) {
+        Employee__c emp = new Employee__c();
+        emp.Emp_ID__c = empId;
+        emp.Name = name;
+        emp.Email__c = email;
+        emp.Birth_Date__c = birthDate;
+        emp.Department__c = dept;
+        
+        insert emp;
+        System.debug('Employee Added Successfully');
+    }
+
+    public static void viewEmployees() {
+        List<Employee__c> empList = [SELECT Id, Name, Emp_ID__c, Email__c, Birth_Date__c, Department__c FROM Employee__c];
+        
+        for(Employee__c e : empList) {
+            System.debug('ID: ' + e.Emp_ID__c + 
+                         ', Name: ' + e.Name + 
+                         ', Email: ' + e.Email__c +
+                         ', DOB: ' + e.Birth_Date__c +
+                         ', Dept: ' + e.Department__c);
+        }
+    }
+
+    public static void updateEmployee(Integer empId, String newDept) {
+        Employee__c emp = [SELECT Id, Department__c FROM Employee__c WHERE Emp_ID__c = :empId LIMIT 1];
+        emp.Department__c = newDept;
+        update emp;
+        System.debug('Employee Updated');
+    }
+
+    public static void deleteEmployee(Integer empId) {
+        Employee__c emp = [SELECT Id FROM Employee__c WHERE Emp_ID__c = :empId LIMIT 1];
+        delete emp;
+        
+        System.debug('Employee Deleted');
+    }
+}
+
+
+
+// -------- MENU DRIVEN EMPLOYEE MANAGEMENT SYSTEM --------
+
+// Change choice value to test operations
+Integer choice = 1;
+
+// Employee Input Data
+Integer empId = 101;
+String empName = 'Rushikesh';
+String email = 'rushi@gmail.com';
+Date birthDate = Date.newInstance(2004, 5, 10);
+String department = 'AI';
+
+// Updated Department
+String newDepartment = 'Data Science';
+
+// Menu Logic
+switch on choice {
+
+    // 1. Add Employee
+    when 1 {
+
+        EmployeeManager.addEmployee(
+            empId,
+            empName,
+            email,
+            birthDate,
+            department
+        );
+    }
+
+    // 2. View Employees
+    when 2 {
+
+        EmployeeManager.viewEmployees();
+    }
+
+    // 3. Update Employee Department
+    when 3 {
+
+        EmployeeManager.updateEmployee(
+            empId,
+            newDepartment
+        );
+    }
+
+    // 4. Delete Employee
+    when 4 {
+
+        EmployeeManager.deleteEmployee(empId);
+    }
+
+    // Invalid Choice
+    when else {
+
+        System.debug('Invalid Choice');
+    }
+}

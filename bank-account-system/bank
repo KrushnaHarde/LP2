@@ -1,0 +1,104 @@
+public class BankController {
+
+    public static void addCustomer(Integer customerId, String name, String email, Date birhtdate, String accountType) {
+        Customer__c cust = new Customer__c();
+        cust.Cust_Id__c = customerId;
+        cust.Name = name;
+        cust.Email__c = email;
+        cust.Birth_Date__c = birhtdate;
+        cust.Account_Type__c = accountType;
+
+        insert cust;
+        System.debug('Customer added Successfully');
+    }
+
+    public static void viewCustomer() {
+        List<Customer__c> custList = [SELECT Id, Name, Email__c, Birth_Date__c, Account_Type__c FROM Customer__c ];
+
+        for(Customer__c c : custList) {
+            System.debug( 'Name : ' + c.Name +  
+                        'Email : ' + c.Email__c + 
+                        'Birth Date : ' + c.Birth_Date__c +
+                        'Account Type : ' + c.Account_Type__c + '\n'
+            );
+        }
+    }
+
+    public static void updateCustomer(Integer customerId, String newAcc) {
+        Customer__c cust = [SELECT Id, Account_Type__c FROM Customer__c WHERE Cust_Id__c = :customerId LIMIT 1];
+        cust.Account_Type__c = newAcc;
+
+        update cust;
+        System.debug('Customer Updated Successfully');
+    }
+
+
+    public static void deleteCustomer(Integer customerId) {
+        Customer__c cust = [SELECT Id FROM Customer__c WHERE Cust_Id__c = :customerId LIMIT 1];
+
+        delete cust;
+        System.debug('Customer Deleted Successfully');
+    }
+
+}
+
+
+
+
+// -------- MENU DRIVEN BANK ACCOUNT SYSTEM --------
+
+// Change choice value to test operations
+Integer choice = 1;
+
+// Customer Input Data
+Integer customerId = 101;
+String customerName = 'Krushna Harde';
+String email = 'krushna@gmail.com';
+Date birthDate = Date.newInstance(2005, 1, 1);
+String accountType = 'Savings';
+
+// Updated Account Type
+String newAccountType = 'Current';
+
+// Menu Logic
+switch on choice {
+
+    // 1. Add Customer
+    when 1 {
+
+        BankController.addCustomer(
+            customerId,
+            customerName,
+            email,
+            birthDate,
+            accountType
+        );
+    }
+
+    // 2. View Customers
+    when 2 {
+
+        BankController.viewCustomer();
+    }
+
+    // 3. Update Customer Account Type
+    when 3 {
+
+        BankController.updateCustomer(
+            customerId,
+            newAccountType
+        );
+    }
+
+    // 4. Delete Customer
+    when 4 {
+
+        BankController.deleteCustomer(customerId);
+    }
+
+    // Invalid Choice
+    when else {
+
+        System.debug('Invalid Choice');
+    }
+}
